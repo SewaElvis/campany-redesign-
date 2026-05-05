@@ -12,80 +12,74 @@ import {
 const services = [
   {
     title: 'Web & App Development',
-    description: 'Expert coding from concept to deployment. We build responsive, high-performance websites and apps.',
+    description: 'Expert coding for developing, redesigning, and maintaining high-performance websites and applications.',
     icon: Code,
     color: 'bg-blue-500'
   },
   {
-    title: 'A.I. Solutions',
-    description: 'Leverage the power of Artificial Intelligence to automate processes and unlock new business potentials.',
+    title: 'A.I. Consulting',
+    description: 'Specialized expertise in Artificial Intelligence implementation, automation, and future-proof digital strategies.',
     icon: Cpu,
     color: 'bg-purple-500'
   },
   {
     title: 'Cyber Security',
-    description: 'Protect your digital assets with our robust security solutions and threat management systems.',
+    description: 'Protecting your organization with advanced security audits, robust threat prevention, and data safety.',
     icon: Shield,
     color: 'bg-red-500'
   },
   {
-    title: 'Social Media Management',
-    description: 'Elevate your brand presence across all social platforms with strategic content and engagement.',
-    icon: Share2,
-    color: 'bg-indigo-500'
+    title: 'Digital Rebranding',
+    description: 'Transforming your business identity for the digital age to drive growth, innovation, and global presence.',
+    icon: Laptop,
+    color: 'bg-cyan-500'
   },
   {
     title: 'Network Engineering',
-    description: 'Reliable network infrastructure design, implementation, and maintenance for your organization.',
+    description: 'Reliable network infrastructure design, implementation, and proactive maintenance for stability.',
     icon: Network,
     color: 'bg-green-500'
   },
   {
-    title: 'Remote IT Support',
-    description: 'Dedicated technical assistance available whenever and wherever you need it.',
-    icon: Headphones,
+    title: 'Social Media Management',
+    description: 'Strategic brand engagement and content management to elevate your social presence and reach.',
+    icon: Share2,
+    color: 'bg-indigo-500'
+  },
+  {
+    title: 'Globalizing Business',
+    description: 'Help globalizing your business through strategic digital positioning and worldwide market reach.',
+    icon: Laptop,
     color: 'bg-orange-500'
   },
   {
     title: 'IT Mentorship',
-    description: 'Career development and professional coaching to bridge the gap between education and industry.',
+    description: 'IT mentorship and career development to empower professionals in the modern tech landscape.',
     icon: GraduationCap,
     color: 'bg-yellow-500'
-  },
-  {
-    title: 'Digital Rebranding',
-    description: 'Complete business transformation, modernizing your identity for the global marketplace.',
-    icon: Laptop,
-    color: 'bg-cyan-500'
   }
+];
+
+const secondaryServices = [
+  { icon: Headphones, title: 'Remote IT Support', desc: 'Dedicated technical assistance available worldwide.' },
+  { icon: Code, title: 'Expert Consultations', desc: 'Strategic technology advice for business growth.' },
+  { icon: Shield, title: 'Quality Assurance', desc: 'Assured quality of services for every project.' },
 ];
 
 export default function Services() {
   return (
-    <section className="section-padding bg-white" id="services">
-      <div className="max-w-7xl mx-auto">
+    <section className="pt-40 pb-24 bg-brand-grey-light overflow-hidden min-h-screen" id="services">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl lg:text-5xl font-display font-bold text-brand-grey-dark mb-4"
-            id="services-heading"
-          >
-            Our Core <span className="text-brand-blue">Expertise</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-brand-grey max-w-2xl mx-auto text-lg"
-          >
-            We offer comprehensive technology solutions designed for growth. From development to expert tech consultations.
-          </motion.p>
+          <h2 className="text-4xl lg:text-5xl font-display font-bold text-brand-blue mb-4 leading-tight heading-underline">
+            Our Core Expertise
+          </h2>
+          <p className="text-brand-grey max-w-2xl mx-auto">
+            Comprehensive technology solutions designed for growth. We empower businesses to thrive in the digital age.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {services.map((service, idx) => (
             <motion.div
               key={service.title}
@@ -93,21 +87,39 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="p-8 rounded-2xl border border-brand-grey-light hover:border-brand-blue/20 hover:shadow-2xl hover:shadow-brand-blue/5 transition-all group"
-              id={`service-card-${idx}`}
+              whileHover={{ y: -10 }}
+              className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col h-full"
             >
-              <div className={`${service.color} w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-black/5 group-hover:scale-110 transition-transform`}>
+              <div className={`${service.color} w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-brand-blue/10`}>
                 <service.icon className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-brand-grey-dark mb-3 group-hover:text-brand-blue transition-colors">
-                {service.title}
-              </h3>
-              <p className="text-brand-grey text-sm leading-relaxed">
+              <h3 className="text-xl font-bold text-brand-blue mb-4">{service.title}</h3>
+              <p className="text-sm text-brand-grey leading-relaxed flex-1">
                 {service.description}
               </p>
             </motion.div>
           ))}
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+           {secondaryServices.map((service, idx) => (
+             <motion.div
+               key={idx}
+               initial={{ opacity: 0, scale: 0.95 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               transition={{ delay: idx * 0.05 }}
+               className="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-6 group hover:border-brand-orange/30 transition-all"
+             >
+                <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
+                   <service.icon className="w-5 h-5" />
+                </div>
+                <div>
+                   <h4 className="font-bold text-brand-blue text-sm mb-1">{service.title}</h4>
+                   <p className="text-[10px] text-brand-grey leading-tight">{service.desc}</p>
+                </div>
+             </motion.div>
+           ))}
         </div>
       </div>
     </section>

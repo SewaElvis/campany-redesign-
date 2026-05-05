@@ -5,24 +5,40 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", sans-serif;
 
-  --color-brand-blue: #2563eb;
-  --color-brand-blue-dark: #1d4ed8;
-  --color-brand-blue-light: #60a5fa;
+  --color-brand-blue: #0A192F;
+  --color-brand-blue-dark: #050C16;
+  --color-brand-blue-light: #112240;
+  --color-brand-orange: #FF5722;
+  --color-brand-orange-dark: #E64A19;
+  --color-brand-orange-light: #FF8A65;
   --color-brand-grey: #64748b;
   --color-brand-grey-dark: #334155;
-  --color-brand-grey-light: #f1f5f9;
+  --color-brand-grey-light: #f8fafc;
 }
 
 @layer base {
   body {
-    @apply font-sans text-brand-grey-dark bg-white;
+    @apply font-sans text-brand-grey-dark bg-white antialiased;
   }
 }
 
 .glass {
-  @apply bg-white/80 backdrop-blur-md border border-white/20;
+  @apply bg-white/10 backdrop-blur-md border border-white/10;
 }
 
 .section-padding {
-  @apply py-20 px-6 md:px-12 lg:px-24;
+  @apply py-24 px-6 md:px-12 lg:px-24;
+}
+
+.btn-orange {
+  @apply bg-brand-orange text-white px-8 py-3.5 rounded-full font-bold uppercase tracking-wider text-sm hover:bg-brand-orange-dark transition-all duration-300 shadow-lg shadow-brand-orange/20;
+}
+
+.heading-underline {
+  @apply relative inline-block;
+}
+
+.heading-underline::after {
+  content: '';
+  @apply absolute -bottom-2 left-0 w-12 h-1 bg-brand-orange;
 }

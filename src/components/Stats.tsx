@@ -15,27 +15,31 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="bg-brand-grey-dark py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="relative -mt-16 z-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-brand-blue-dark rounded-[3rem] p-10 md:p-14 lg:p-16 shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-around items-center gap-12 text-center"
+        >
+          {/* Subtle glow background */}
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full" />
+          
           {stats.map((stat, idx) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center group"
+              className="relative group transition-all duration-300 hover:scale-105"
               id={`stat-${stat.label.toLowerCase().replace(/ /g, '-')}`}
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 text-brand-blue-light mb-4 group-hover:bg-brand-blue group-hover:text-white transition-all">
-                <stat.icon className="w-6 h-6" />
+              <div className="flex flex-col items-center">
+                 <stat.icon className="w-10 h-10 text-brand-orange mb-6 group-hover:scale-110 transition-transform" />
+                 <p className="text-5xl font-display font-bold text-white mb-2">{stat.value}</p>
+                 <p className="text-xs text-slate-400 font-bold uppercase tracking-[0.2em]">{stat.label}</p>
               </div>
-              <p className="text-4xl font-display font-bold text-white mb-2">{stat.value}</p>
-              <p className="text-sm text-slate-400 font-medium uppercase tracking-widest">{stat.label}</p>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
