@@ -3,10 +3,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
+import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
+
+const API_KEY = process.env.GOOGLE_MAPS_PLATFORM_KEY || '';
+const hasValidKey = Boolean(API_KEY) && API_KEY !== 'YOUR_API_KEY';
 
 export default function Contact() {
+  const position = { lat: 0.3582, lng: 32.7481 }; // Bugujju, Mukono, Uganda
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+    
+    const mailtoLink = `mailto:sewa.elvis@gmail.com?subject=Contact Message from ${name}&body=From: ${name} (${email})%0D%0A%0D%0A${message}`;
+    window.location.href = mailtoLink;
+  };
+
   return (
     <section className="pt-40 pb-24 bg-white min-h-screen" id="contact">
       <div className="max-w-7xl mx-auto px-4">
@@ -17,11 +36,11 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl lg:text-5xl font-display font-bold text-brand-blue mb-6 heading-underline" id="contact-heading">
-              Ready to Unlock <br/>
-              <span className="text-brand-blue/80">Your Potential?</span>
+              Ready to <br/>
+              <span className="text-brand-orange">Collaborate?</span>
             </h2>
             <p className="text-lg text-brand-grey mb-12">
-              Unlock your business's potential with ELMI Tech Space! Based in Mukono/Kampala and serving clients worldwide. 
+              Unlock your business's potential with ELMI Tech Space! Based in Bugujju, Mukono and serving clients worldwide. 
               <span className="block mt-4 font-bold text-brand-orange italic">"Assured quality of services for all our clients."</span>
             </p>
 
@@ -50,27 +69,40 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-brand-blue mb-1">Location</h4>
-                  <p className="text-brand-grey">Mukono & Kampala, Uganda | Serving Worldwide</p>
+                  <p className="text-brand-grey">Bugujju, Mukono | Uganda | Serving Worldwide</p>
                 </div>
               </div>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Functional Google Map */}
             <div className="rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-2xl h-80 relative group">
-               <img 
-                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000" 
-                alt="Location map" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                referrerPolicy="no-referrer"
-               />
-               <div className="absolute inset-0 bg-brand-blue/30 flex items-center justify-center">
-                  <div className="bg-white p-4 rounded-2xl shadow-2xl flex items-center gap-3">
-                     <div className="bg-brand-orange p-2 rounded-lg">
-                        <MapPin className="text-white w-4 h-4" />
-                     </div>
-                     <span className="text-brand-blue font-bold text-sm">Find us in Mukono</span>
-                  </div>
-               </div>
+              {!hasValidKey ? (
+                <div className="w-full h-full bg-slate-50 flex items-center justify-center p-8 text-center">
+                   <div className="max-w-xs">
+                      <MapPin className="w-10 h-10 text-slate-300 mx-auto mb-4" />
+                      <h4 className="text-brand-blue font-bold mb-2">Live Map (Bugujju, Mukono)</h4>
+                      <p className="text-[10px] text-slate-400 leading-relaxed uppercase tracking-widest">
+                         Please add your GOOGLE_MAPS_PLATFORM_KEY to AI Studio Secrets to enable the live map.
+                      </p>
+                   </div>
+                </div>
+              ) : (
+                <APIProvider apiKey={API_KEY} version="weekly">
+                  <Map
+                    defaultCenter={position}
+                    defaultZoom={15}
+                    mapId="ELMI_TECH_MAP"
+                    internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                    style={{ width: '100%', height: '100%' }}
+                    gestureHandling={'greedy'}
+                    disableDefaultUI={false}
+                  >
+                    <AdvancedMarker position={position} title="ELMI Tech Space - Bugujju">
+                       <Pin background="#F59E0B" borderColor="#B45309" glyphColor="#FFF" />
+                    </AdvancedMarker>
+                  </Map>
+                </APIProvider>
+              )}
             </div>
           </motion.div>
 
@@ -80,11 +112,13 @@ export default function Contact() {
             viewport={{ once: true }}
             className="bg-brand-grey-light p-8 lg:p-12 rounded-[2.5rem] shadow-sm border border-brand-grey-light"
           >
-            <form className="space-y-6" id="contact-form">
+            <form onSubmit={handleFormSubmit} className="space-y-6" id="contact-form">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-brand-grey-dark mb-2">Full Name</label>
                   <input 
+                    required
+                    name="name"
                     type="text" 
                     placeholder="John Doe" 
                     className="w-full bg-white border-transparent focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 rounded-xl px-4 py-3 outline-none transition-all"
@@ -93,6 +127,8 @@ export default function Contact() {
                 <div>
                   <label className="block text-sm font-bold text-brand-grey-dark mb-2">Email Address</label>
                   <input 
+                    required
+                    name="email"
                     type="email" 
                     placeholder="john@example.com" 
                     className="w-full bg-white border-transparent focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 rounded-xl px-4 py-3 outline-none transition-all"
@@ -101,7 +137,7 @@ export default function Contact() {
               </div>
               <div>
                 <label className="block text-sm font-bold text-brand-grey-dark mb-2">Service Needed</label>
-                <select className="w-full bg-white border-transparent focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 rounded-xl px-4 py-3 outline-none transition-all">
+                <select name="service" className="w-full bg-white border-transparent focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 rounded-xl px-4 py-3 outline-none transition-all">
                   <option>Web Development</option>
                   <option>AI Solutions</option>
                   <option>Cyber Security</option>
@@ -112,6 +148,8 @@ export default function Contact() {
               <div>
                 <label className="block text-sm font-bold text-brand-grey-dark mb-2">Message</label>
                 <textarea 
+                  required
+                  name="message"
                   rows={4} 
                   placeholder="How can we help you?" 
                   className="w-full bg-white border-transparent focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 rounded-xl px-4 py-3 outline-none transition-all resize-none"
@@ -120,7 +158,6 @@ export default function Contact() {
               <button 
                 type="submit" 
                 className="btn-orange w-full flex items-center justify-center gap-2"
-                onClick={(e) => e.preventDefault()}
               >
                 Send Message <Send className="w-5 h-5" />
               </button>
@@ -131,3 +168,4 @@ export default function Contact() {
     </section>
   );
 }
+

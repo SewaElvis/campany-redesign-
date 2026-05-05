@@ -36,33 +36,26 @@ const team = [
 
 export default function About() {
   return (
-    <section className="pt-40 pb-24 bg-white min-h-screen" id="about">
+    <section className="py-40 bg-white" id="about">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="relative rounded-t-[10rem] rounded-br-[10rem] overflow-hidden border-4 border-slate-50 shadow-2xl skew-y-1 group">
-               <img 
+            {/* The curved image container as seen in the image - updated to match About.tsx lines */}
+            <div className="relative z-10 rounded-tr-[10rem] rounded-bl-[10rem] overflow-hidden shadow-4xl border-8 border-white skew-y-1">
+              <img 
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2070" 
-                alt="About us presentation" 
-                className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Collaborative work" 
+                className="w-full aspect-[4/5] object-cover transition-transform duration-1000 hover:scale-110"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-brand-orange/10 mix-blend-multiply" />
             </div>
-            
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.8 }}
-               whileInView={{ opacity: 1, scale: 1 }}
-               className="absolute -bottom-8 -right-4 bg-brand-orange text-white p-6 md:p-8 rounded-[2rem] shadow-xl text-center min-w-[140px] md:min-w-[160px]"
-            >
-               <p className="text-3xl md:text-4xl font-bold mb-1">5+</p>
-               <p className="text-[10px] font-bold uppercase tracking-widest leading-tight">Years Industrial<br/>Experience</p>
-            </motion.div>
+            {/* Background floating squares */}
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-brand-orange/10 rounded-3xl -z-0 animate-pulse" />
           </motion.div>
 
           <motion.div
@@ -70,8 +63,10 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-brand-blue mb-8 heading-underline" id="about-heading">
-              Our Story
+            <h4 className="font-bold text-brand-orange uppercase tracking-[0.3em] text-xs mb-4">About Us</h4>
+            <h2 className="text-4xl lg:text-6xl font-display font-bold text-brand-blue mb-8 leading-tight">
+              Bridging the gap between <br />
+              <span className="text-brand-orange">Technology & Success</span>
             </h2>
             <p className="text-brand-grey text-lg mb-8 leading-relaxed">
               ELMI Tech Space is a technology company committed to delivering high-quality services that foster growth and inspire innovation. 
@@ -79,27 +74,27 @@ export default function About() {
               leverage technology to optimize operations and achieve sustainable growth.
             </p>
             
-            <div className="space-y-6 mb-12">
-               <div>
-                  <h4 className="font-bold text-brand-orange uppercase tracking-widest text-xs mb-2">Our Mission</h4>
-                  <p className="text-brand-grey text-sm">Bridge the gap between technology and success by delivering high-quality services, fostering growth, and inspiring innovation.</p>
+            <div className="grid sm:grid-cols-2 gap-8 mb-12">
+               <div className="p-6 bg-slate-50 rounded-3xl group hover:bg-brand-blue transition-all duration-300">
+                  <h4 className="font-bold text-brand-orange uppercase tracking-widest text-xs mb-2 group-hover:text-white">Our Mission</h4>
+                  <p className="text-brand-grey text-sm group-hover:text-white/80">Bridge the gap between technology and success by delivering high-quality services, fostering growth, and inspiring innovation.</p>
                </div>
-               <div>
-                  <h4 className="font-bold text-brand-orange uppercase tracking-widest text-xs mb-2">Our Vision</h4>
-                  <p className="text-brand-grey text-sm">To be the leading tech partner for businesses in our region and worldwide.</p>
+               <div className="p-6 bg-slate-50 rounded-3xl group hover:bg-brand-blue transition-all duration-300">
+                  <h4 className="font-bold text-brand-orange uppercase tracking-widest text-xs mb-2 group-hover:text-white">Our Vision</h4>
+                  <p className="text-brand-grey text-sm group-hover:text-white/80">To be the leading tech partner for businesses in our region and worldwide.</p>
                </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-               {values.map((v, i) => (
-                 <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <h5 className="font-bold text-brand-blue text-sm mb-1">{v.title}</h5>
-                    <p className="text-[10px] text-brand-grey leading-tight">{v.desc}</p>
-                 </div>
-               ))}
-            </div>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn-orange"
+            >
+               GET A QUOTE
+            </motion.button>
           </motion.div>
         </div>
+
 
         {/* Improved Team Section */}
         <div className="mt-40" id="team">

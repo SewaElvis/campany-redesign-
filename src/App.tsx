@@ -33,28 +33,34 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => (
   </motion.div>
 );
 
-export default function App() {
+import { AuthProvider } from './lib/AuthContext';
+
+function App() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <FloatingActions />
-      <main>
-        <AnimatePresence mode="wait">
-          <div key={location.pathname}>
-            <Routes location={location}>
-              <Route index element={<PageTransition><HomePage /></PageTransition>} />
-              <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
-              <Route path="/about" element={<PageTransition><About /></PageTransition>} />
-              <Route path="/team" element={<PageTransition><div className="pt-32"><About /></div></PageTransition>} />
-              <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-            </Routes>
-          </div>
-        </AnimatePresence>
-      </main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <FloatingActions />
+        <main>
+          <AnimatePresence mode="wait">
+            <div key={location.pathname}>
+              <Routes location={location}>
+                <Route index element={<PageTransition><HomePage /></PageTransition>} />
+                <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
+                <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+                <Route path="/team" element={<PageTransition><div className="pt-32"><About /></div></PageTransition>} />
+                <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+              </Routes>
+            </div>
+          </AnimatePresence>
+        </main>
+        <Footer />
+      </div>
+    </AuthProvider>
   );
 }
+
+export default App;
 

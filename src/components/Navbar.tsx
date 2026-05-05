@@ -8,13 +8,17 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Rocket, Search, Facebook, Twitter, Linkedin, Instagram, 
-  MapPin, X, Send, Sparkles 
+  MapPin, X, Send, Sparkles, User as UserIcon, LogOut 
 } from 'lucide-react';
 import { askGemini } from '../services/geminiService';
+import { useAuth } from '../lib/AuthContext';
+import AuthModal from './AuthModal';
 
 export default function Navbar() {
   const location = useLocation();
+  const { user, logout } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [searchResponse, setSearchResponse] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -38,7 +42,9 @@ export default function Navbar() {
     Services: Web development, AI, Cyber Security, Digital Rebranding, social media management, network engineering, IT mentorship.
     Team: Elvis (CEO), Malik Abel (Digital), Jessy (AI Specialist).
     Contact: sewa.elvis@gmail.com, 0708020670.
-    User query: ${searchInput}`;
+    User query: ${searchInput}
+    
+    IMPORTANT: You can also answer general tech questions by searching Google datasets or answers conceptually. Provide clear, professional IT advice.`;
 
     try {
       const res = await askGemini(systemPrompt);
@@ -51,8 +57,9 @@ export default function Navbar() {
   };
 
   return (
+    <>
     <nav className="fixed w-full z-50 flex justify-center py-4 md:py-6 px-4">
-      <div className="bg-white/90 backdrop-blur-xl shadow-2xl shadow-brand-blue/10 rounded-3xl md:rounded-full px-4 md:px-8 py-2 md:py-3 flex items-center justify-between border border-white/40 w-full max-w-6xl transition-all duration-500">
+      <div className="bg-white/90 backdrop-blur-xl shadow-2xl shadow-brand-blue/10 rounded-3xl md:rounded-full px-4 md:px-8 py-2 md:py-3 flex items-center justify-between border border-white/40 w-full max-w-7xl transition-all duration-500">
         
         {/* Left: Logo & Socials */}
         <div className="hidden lg:flex items-center gap-6">
@@ -97,7 +104,7 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right: Search & Location */}
+        {/* Right: Search, Location & Auth */}
         <div className="flex items-center gap-3">
            <div className="hidden sm:flex items-center gap-2 text-slate-400 mr-2">
               <MapPin className="w-4 h-4 text-brand-orange" />
@@ -110,6 +117,30 @@ export default function Navbar() {
            >
               <Search className="w-4 h-4" />
            </button>
+
+           <div className="w-px h-6 bg-slate-200 mx-1 hidden sm:block" />
+
+           {user ? (
+             <div className="flex items-center gap-3">
+               <div className="hidden md:flex flex-col items-end">
+                 <span className="text-[10px] font-bold text-brand-blue truncate max-w-[100px]">{user.displayName || user.email}</span>
+                 <button onClick={logout} className="text-[9px] text-brand-orange font-bold uppercase tracking-widest hover:underline flex items-center gap-1">
+                   Logout <LogOut className="w-2 h-2" />
+                 </button>
+               </div>
+               <div className="w-10 h-10 rounded-full border-2 border-brand-orange p-0.5 overflow-hidden">
+                 <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.email}`} className="w-full h-full rounded-full object-cover" alt="User" />
+               </div>
+             </div>
+           ) : (
+             <button 
+              onClick={() => setIsAuthOpen(true)}
+              className="bg-brand-blue text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-lg shadow-brand-blue/20 hover:scale-105 transition-all flex items-center gap-2"
+             >
+                <UserIcon className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Sign In</span>
+             </button>
+           )}
         </div>
       </div>
 
@@ -162,8 +193,8 @@ export default function Navbar() {
                              <Sparkles className="w-5 h-5 text-brand-orange" />
                           </div>
                           <div>
-                             <h4 className="font-bold text-brand-blue">AI Assistant</h4>
-                             <p className="text-[10px] text-slate-400 uppercase tracking-widest">Expert Search Result</p>
+                             <h4 className="font-bold text-brand-blue">AI Expert Search</h4>
+                             <p className="text-[10px] text-slate-400 uppercase tracking-widest">Enhanced with Google Datasets</p>
                           </div>
                        </div>
                        
@@ -185,6 +216,9 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </nav>
+    </>
   );
 }
